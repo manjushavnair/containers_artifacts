@@ -52,7 +52,6 @@ ENV SQL_USER="sqladmin" \
     WEB_SERVER_BASE_URI="http://0.0.0.0" \
     ASPNETCORE_ENVIRONMENT="Development" \
     CONFIG_FILES_PATH="/secrets"
-
 # Metadata as defined in OCI image spec annotations - https://github.com/opencontainers/image-spec/blob/master/annotations.md
 LABEL org.opencontainers.image.title="Trip Insights - POI (Points Of Interest) API" \
       org.opencontainers.image.description="The POI (Points Of Interest) API component forms part of the Trip Insights application." \
