@@ -17,31 +17,8 @@ spec:
         "kubernetes.io/os": linux
       containers:
       - name: ohuser-java
-        image: registrykxt5825.azurecr.io/ohuser_java:v1
-        env:
-        - name: SQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: sql
-              key: SQL_USER
- 
-        - name: SQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: sql
-              key: SQL_PASSWORD
- 
-        - name: SQL_SERVER
-          valueFrom:
-            secretKeyRef:
-              name: sql
-              key: SQL_SERVER
- 
-        - name: SQL_DBNAME
-          valueFrom:
-            secretKeyRef:
-              name: sql
-              key: SQL_DBNAME    
+        image: registrykxt5825.azurecr.io/ohuser_java:v1  
+
         resources:
           requests:
             cpu: 100m
@@ -52,15 +29,39 @@ spec:
         ports:
         - containerPort: 80
           name: redis
+        volumeMounts:
+        - name: secrets-store-inline
+          mountPath: "/secrets"
+          readOnly: true
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "sql-kv"
 
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: ohuser-java-service
-  namespace: api
-spec:
-  ports:
-  - port: 80
-  selector:
-    app: ohuser-java-pod
+            apiVersion: v1
+            kind: Service
+            metadata:
+              name: ohuser-java-service
+              namespace: api
+            spec:
+              ports:
+              - port: 80
+              selector:
+                app: ohuser-java-pod
+
+---
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: sql
+              namespace: api
+            type: Opaque
+            data:
+              SQL_USER: c3FsYWRtaW5rWHQ1ODI1
+              SQL_PASSWORD: ekMwd2s5SHkx
+              SQL_SERVER: c3Fsc2VydmVya3h0NTgyNS5kYXRhYmFzZS53aW5kb3dzLm5ldA==
+              SQL_DBNAME: bXlkcml2aW5nREI=
