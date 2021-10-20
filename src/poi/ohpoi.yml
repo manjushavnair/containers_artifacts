@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ohpoi-deploy
+  namespace: api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ohpoi-pod
+  template:
+    metadata:
+      labels:
+        app: ohpoi-pod
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: ohpoi
+        image: registrykxt5825.azurecr.io/ohpoi:v1
+        env:
+        - name: SQL_USER
+          value: sqladminkXt5825
+        - name: SQL_PASSWORD
+          value: zC0wk9Hy1
+        - name: SQL_SERVER
+          value: sqlserverkxt5825.database.windows.net
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 80
+          name: redis
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ohpoi-service
+  namespace: api
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: ohpoi-pod
