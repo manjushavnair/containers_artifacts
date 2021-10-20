@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ohuser_java-Deploy
+  namespace: api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ohuser_java-pod
+  template:
+    metadata:
+      labels:
+        app: ohuser_java-pod
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: ohuser_java
+        image: registrykxt5825.azurecr.io/ohuser_java:v1
+        env:
+        - name: SQL_USER
+          value: sqladminkXt5825
+        - name: SQL_PASSWORD
+          value: zC0wk9Hy1
+        - name: SQL_SERVER
+          value: sqlserverkxt5825.database.windows.net
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 80
+          name: redis
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ohuser_java-service
+  namespace: api
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: ohuser_java-pod
