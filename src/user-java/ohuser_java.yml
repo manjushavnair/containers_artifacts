@@ -20,11 +20,28 @@ spec:
         image: registrykxt5825.azurecr.io/ohuser_java:v1
         env:
         - name: SQL_USER
-          value: sqladminkXt5825
+          valueFrom:
+            secretKeyRef:
+              name: sql
+              key: SQL_USER
+ 
         - name: SQL_PASSWORD
-          value: zC0wk9Hy1
+          valueFrom:
+            secretKeyRef:
+              name: sql
+              key: SQL_PASSWORD
+ 
         - name: SQL_SERVER
-          value: sqlserverkxt5825.database.windows.net
+          valueFrom:
+            secretKeyRef:
+              name: sql
+              key: SQL_SERVER
+ 
+        - name: SQL_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: sql
+              key: SQL_DBNAME    
         resources:
           requests:
             cpu: 100m
