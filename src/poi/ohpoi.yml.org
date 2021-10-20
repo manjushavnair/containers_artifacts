@@ -4,7 +4,7 @@ metadata:
   name: ohpoi-deploy
   namespace: api
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: ohpoi-pod
@@ -18,7 +18,13 @@ spec:
       containers:
       - name: ohpoi
         image: registrykxt5825.azurecr.io/ohpoi:v1
-
+        env:
+        - name: SQL_USER
+          value: sqladminkXt5825
+        - name: SQL_PASSWORD
+          value: zC0wk9Hy1
+        - name: SQL_SERVER
+          value: sqlserverkxt5825.database.windows.net
         resources:
           requests:
             cpu: 100m
@@ -29,18 +35,6 @@ spec:
         ports:
         - containerPort: 80
           name: redis
-
-        volumeMounts:
-        - name: secrets-store-inline
-          mountPath: "/secrets"
-          readOnly: true
-      volumes:
-        - name: secrets-store-inline
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: "sql-kv"
 
 ---
 apiVersion: v1
@@ -53,16 +47,3 @@ spec:
   - port: 80
   selector:
     app: ohpoi-pod
-
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: sql
-  namespace: api
-type: Opaque
-data:
-  SQL_USER: c3FsYWRtaW5rWHQ1ODI1
-  SQL_PASSWORD: ekMwd2s5SHkx
-  SQL_SERVER: c3Fsc2VydmVya3h0NTgyNS5kYXRhYmFzZS53aW5kb3dzLm5ldA==
-  SQL_DBNAME: bXlkcml2aW5nREI=
