@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ohuser_java-Deploy
+  name: ohuser-java-Deploy
   namespace: api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ohuser_java-pod
+      app: ohuser-java-pod
   template:
     metadata:
       labels:
-        app: ohuser_java-pod
+        app: ohuser-java-pod
     spec:
       nodeSelector:
         "kubernetes.io/os": linux
       containers:
-      - name: ohuser_java
+      - name: ohuser-java
         image: registrykxt5825.azurecr.io/ohuser_java:v1
         env:
         - name: SQL_USER
@@ -40,10 +40,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ohuser_java-service
+  name: ohuser-java-service
   namespace: api
 spec:
   ports:
   - port: 80
   selector:
-    app: ohuser_java-pod
+    app: ohuser-java-pod
