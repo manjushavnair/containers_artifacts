@@ -1,0 +1,11 @@
+Information you will need for challenges. You can find these later in the *Messages* tab.
+
+ACR Login Server: registrykxt5825.azurecr.io
+ACR Username: registrykxt5825
+ACR Password: =24MV09nDOiFDHC0M3xIo=Ny2Ne0voU8
+SQL Server: sqlserverkxt5825
+SQL Server Username: sqladminkXt5825
+SQL Server Password: zC0wk9Hy1
+Simulator url: simulatorregistrykxt5825.eastasia.azurecontainer.io
+api-dev password: cX1lr4Vy9
+web-dev password: iX7be0Ro2

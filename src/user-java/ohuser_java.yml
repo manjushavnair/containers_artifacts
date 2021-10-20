@@ -4,7 +4,7 @@ metadata:
   name: ohuser_java-Deploy
   namespace: api
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: ohuser_java-pod
